@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# sparky-server script lets you install and set up the server edition on the top of sparky installation
+# Copyright Paweł Pijanowski "pavroo" <pavroo@onet.eu> 2019
+# Under the GNU GPL3 License
+#
+# iso pre-installed deps: base-files, iputils-ping, linux-headers-amd64|linux-headers-686-pae, linux-image-amd64|linux-image-686-pae, mgetty, net-tools, openssh-server, postfix, sparky-apt-sb, sparky-server
+#
+# server iso name with a suffix: server or sbserver
+# client iso name with a suffix: client or client-light
+#
+# Last update 2019/01/28 by pavroo
+
+# get default's locale file
+DEFLOCDIR="/usr/share/sparky/sparky-server"
+if [ "`cat /etc/default/locale | grep pl`" != "" ]; then
+. $DEFLOCDIR/pl
+else
+. $DEFLOCDIR/en
+fi
+
+# set options
+DIALOG=`which dialog`
+HEIGHT="17"
+WIDTH="75"
+TITLE="--title "
+YESNO="--yesno "
+TITLETEXT="Sparky Server Installer"
+TESTROOT=`whoami`
+
+if [ "$TESTROOT" != "root" ]; then
+	echo "$LOCAL1 ... $LOCAL2 ..."
+	exit 1
+else
+	/usr/bin/sparky-ad-server
+	# remove server post-install scripts
+	$DIALOG $TITLE"$TITLETEXT" $YESNO "$LOCAL3" $HEIGHT $WIDTH
+	if [ "$?" = "0" ]; then
+		apt-get purge sparky-server sparky-ad-server -y
+	else
+		echo "$LOCAL2 ..."
+		exit 1
+	fi
+fi
+
+exit 0

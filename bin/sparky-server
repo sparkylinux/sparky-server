@@ -9,12 +9,14 @@
 # server iso name with a suffix: server or sbserver
 # client iso name with a suffix: client or client-light
 #
-# Last update 2019/06/30 by pavroo
+# Last update 2019/10/19 by pavroo
 
 # get default's locale file
 DEFLOCDIR="/usr/share/sparky/sparky-server"
 if [ "`cat /etc/default/locale | grep fr`" != "" ]; then
 . $DEFLOCDIR/fr
+elif [ "`cat /etc/default/locale | grep hu`" != "" ]; then
+. $DEFLOCDIR/hu
 elif [ "`cat /etc/default/locale | grep it`" != "" ]; then
 . $DEFLOCDIR/it
 elif [ "`cat /etc/default/locale | grep pl`" != "" ]; then
